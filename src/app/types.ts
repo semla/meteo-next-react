@@ -35,8 +35,8 @@ export type Nom = "acumulacio" | "cota" | "comentari" | "probabilitat" | "visibi
 // }
 
 export interface TransformedData {
-    dataPrediccio:  string;
-    dataPublicacio: string;
+    dataPrediccio:  Date;
+    dataPublicacio: Date;
     nom: string;
     idZona: 1|2|3|4|5|6|7;
     franjas: {variablesValors: VariablesValor[],
@@ -44,3 +44,6 @@ export interface TransformedData {
               nomTiempo:  "00:00h - 06:00h" | "06:00 - 12:00h" |  "12:00h - 18:00h" | "18:00h - 24:00h" |  "24h"
              }[];
 }
+
+
+export type Day = 'avui'|'dema';// was sure was also passat_dema but can't find it

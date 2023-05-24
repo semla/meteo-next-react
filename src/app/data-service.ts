@@ -1,6 +1,9 @@
-import { Data, TransformedData } from './types'
-export async function getData() {
-    const res = await fetch('https://static-m.meteo.cat/content/opendata/pirineu_dema.json');
+import { Data, TransformedData, Day } from './types'
+
+export async function getData(day:Day) {
+    const url = `https://static-m.meteo.cat/content/opendata/pirineu_${day}.json`;
+    console.log('url: ' + url)
+    const res = await fetch(url);
     // The return value is *not* serialized
     // You can return Date, Map, Set, etc.
 
@@ -26,8 +29,8 @@ function transformData(originalData: Data): TransformedData[] {
         franje.zones.forEach(zone => {
             if (!zoneMap[zone.idZona]) {
                 zoneMap[zone.idZona] = {
-                    dataPrediccio: originalData.dataPrediccio,
-                    dataPublicacio: originalData.dataPublicacio,
+                    dataPrediccio: new Date(originalData.dataPrediccio),
+                    dataPublicacio: new Date(originalData.dataPublicacio),
                     nom: zone.nom,
                     idZona: zone.idZona,
                     franjas: []

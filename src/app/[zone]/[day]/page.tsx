@@ -1,15 +1,22 @@
-import { TransformedData, VariablesValor } from '../types';
-import { getData } from '../data-service'
+import { TransformedData, VariablesValor, Day } from '../../types';
+import { getData } from '../../data-service'
+import { formatDate } from '../../utils';
 
-export default async function Page({ params }: { params: { zone: string } }) {
+export default async function Page({ params }: { params: { zone: string, day: Day} }) {
     let zoneName = params.zone;
     // todo: use loading file to set initial value while loading?
     //return <h1>{zoneName}</h1>
-    const dataForAllZones: TransformedData[] = await getData(); // cached
+    console.info(params)
+    const dataForAllZones: TransformedData[] = await getData(params.day); // cached
     const dataForCurrentZone = getDataForCurrentZone(zoneName, dataForAllZones);
     return <>
         <h1>{dataForCurrentZone?.nom}</h1>
-        <p>{dataForCurrentZone?.dataPrediccio}</p>
+        <dl>
+            <dt>dataPrediccio</dt>
+            <dd>{formatDate(dataForCurrentZone?.dataPrediccio)}</dd>
+            <dt>dataPublicacio</dt>
+            <dd>{formatDate( dataForCurrentZone?.dataPublicacio)}</dd>
+        </dl>
         <div>{getMeasurements(dataForCurrentZone)}</div>
     </>
 }
